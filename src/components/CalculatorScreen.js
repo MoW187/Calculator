@@ -3,10 +3,17 @@ import { Form, Col } from 'react-bootstrap';
 
 import './CalculatorScreen.scss';
 
-const CalculatorScreen = () => {
+const CalculatorScreen = (props) => {
+    const {inputReference, value} = props;
+
     return (
         <Col className="calculator-grid-item">
-            <Form.Control id="calculator-screen" />
+            <Form.Control
+                readOnly
+                id="calculator-screen"
+                ref={inputReference}
+                value={new Intl.NumberFormat("hu-HU", {roundingPriority: 'morePrecision'}).format(value)}
+            />
         </Col>
     )
 }
