@@ -1,8 +1,12 @@
 /* The following block can be included in a custom.scss */
 
+$grid-gutter-width: 5;
+
+$primary: #303056;
+
 /* make the customizations */
 $theme-colors: (
-    "primary": tomato,
+    "primary": #303056,
     "danger": tomato
 );
 

@@ -1,20 +1,40 @@
-import React, { useState } from 'react';
-
-import Jumbotron from 'react-bootstrap/Jumbotron';
-import Toast from 'react-bootstrap/Toast';
-import Container from 'react-bootstrap/Container';
-
+import React from 'react';
 import CalculatorButton from './components/CalculatorButton';
+import CalculatorScreen from './components/CalculatorScreen';
+import { Container, Row, Col } from 'react-bootstrap';
 
 import './App.scss'
-import { Row, Col } from 'react-bootstrap';
 
 const App = () => (
   <Container className="p-3">
     <Row>
-      <Col lg={{span: 6, offset: 3}}>
+      <Col xs={{offset: 3}}>
         <div className='calculator-panel'>
-          <CalculatorButton text="1" />
+          <Row xs={1}>
+            <CalculatorScreen />
+          </Row>
+          <Row xs={4}>
+            <CalculatorButton text="C" color="gold" />
+            <CalculatorButton text="M" color="gold" />
+            <CalculatorButton text="%" color="gold" />
+            <CalculatorButton text="/" color="gold" />
+            <CalculatorButton text="7" color="blue" />
+            <CalculatorButton text="8" color="blue" />
+            <CalculatorButton text="9" color="blue" />
+            <CalculatorButton text="X" color="gold" />
+            <CalculatorButton text="4" color="blue" />
+            <CalculatorButton text="5" color="blue" />
+            <CalculatorButton text="6" color="blue" />
+            <CalculatorButton text="-" color="gold" />
+            <CalculatorButton text="1" color="blue" />
+            <CalculatorButton text="2" color="blue" />
+            <CalculatorButton text="3" color="blue" />
+            <CalculatorButton text="+" color="gold" />
+            <CalculatorButton text="0" color="blue" />
+            <CalculatorButton text="," color="blue" />
+            <CalculatorButton text="+/-" color="gold" />
+            <CalculatorButton text="=" color="gold" />
+          </Row>
         </div>
       </Col>
     </Row>

@@ -1,0 +1,30 @@
+.btn {
+    &.btn-calculator {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        border-radius: 5px;
+        font-family: 'Mukta Mahee', sans-serif;
+        font-size: 30px;
+        font-weight: 700;
+        color: #fff1e9;
+        border: 0;
+
+        &.gold {
+            background: rgb(114,120,57);
+            background: linear-gradient(0deg, rgba(114,120,57,1) 0%, rgba(191,199,112,1) 100%);
+        }
+
+        &.blue {
+            background: rgb(89,89,142);
+            background: linear-gradient(0deg, rgba(89,89,142,1) 0%, rgba(126,126,220,1) 100%);
+        }
+
+        &:hover {
+            color: #fff1e9;
+        }
+
+        &:active {
+            color: #ecfc53;
+        }
+    }
+}
