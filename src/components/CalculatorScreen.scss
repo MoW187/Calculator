@@ -1,0 +1,14 @@
+#calculator-screen {
+    height: 88px;
+    text-align: right;
+    font-family: 'Montserrat', sans-serif;
+    color: #414141;
+    border: 3px solid #727839;
+    font-size: 32px;
+    letter-spacing: 3.6px;
+
+    @media screen and (min-width: 768px) {
+        font-size: 48px;
+        letter-spacing: 5.76px;
+    }
+}
