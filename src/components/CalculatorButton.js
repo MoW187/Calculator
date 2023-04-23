@@ -5,11 +5,11 @@ import { Col } from 'react-bootstrap';
 import './CalculatorButton.scss';
 
 const CalculatorButton = (props) => {
-    const {text, color} = props;
+    const {text, color, onClick} = props;
 
     return (
         <Col className='calculator-grid-item'> 
-            <Button variant="calculator" className={color} onClick={() => console.log(text)}>{text}</Button>
+            <Button variant="calculator" className={color} onClick={onClick}>{text}</Button>
         </Col>
     )
 }

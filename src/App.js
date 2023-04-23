@@ -8,6 +8,9 @@ import './App.scss'
 const App = () => {
   const inputReference = useRef(null);
   const [inputNumber, setInputNumber] = useState('');
+  const [lhs, setLhs] = useState(null);
+  const [rhs, setRhs] = useState(null);
+  const [operator, setOperator] = useState(null);
 
   const handleKeyPress = useCallback((evt) => {
     if(isFinite(evt.key) && inputNumber.length < 11) {
@@ -22,13 +25,9 @@ const App = () => {
         case ',':
           setInputNumber(inputNumber + '.');
         default:
-          // code block
+          break;
       }
     }
-  }, [inputNumber]);
-
-  useEffect(() => {
-    console.log(inputNumber);
   }, [inputNumber]);
 
   useEffect(() => {
@@ -39,6 +38,10 @@ const App = () => {
     };
   }, [handleKeyPress]);
 
+  const buttonClickHandler = (key) => {
+    handleKeyPress({key: key})
+  }
+
   return (
     <Container className="p-3">
       <Row>
@@ -48,26 +51,26 @@ const App = () => {
               <CalculatorScreen value={inputNumber} inputReference={inputReference} />
             </Row>
             <Row xs={4}>
-              <CalculatorButton text="C" color="gold" />
-              <CalculatorButton text="M" color="gold" />
-              <CalculatorButton text="%" color="gold" />
-              <CalculatorButton text="/" color="gold" />
-              <CalculatorButton text="7" color="blue" />
-              <CalculatorButton text="8" color="blue" />
-              <CalculatorButton text="9" color="blue" />
-              <CalculatorButton text="X" color="gold" />
-              <CalculatorButton text="4" color="blue" />
-              <CalculatorButton text="5" color="blue" />
-              <CalculatorButton text="6" color="blue" />
-              <CalculatorButton text="-" color="gold" />
-              <CalculatorButton text="1" color="blue" />
-              <CalculatorButton text="2" color="blue" />
-              <CalculatorButton text="3" color="blue" />
-              <CalculatorButton text="+" color="gold" />
-              <CalculatorButton text="0" color="blue" />
-              <CalculatorButton text="," color="blue" />
-              <CalculatorButton text="+/-" color="gold" />
-              <CalculatorButton text="=" color="gold" />
+              <CalculatorButton text="C" color="gold" onClick={() => buttonClickHandler('c')} />
+              <CalculatorButton text="M" color="gold" onClick={() => buttonClickHandler('m')} />
+              <CalculatorButton text="%" color="gold" onClick={() => buttonClickHandler('%')} />
+              <CalculatorButton text="/" color="gold" onClick={() => buttonClickHandler('/')} />
+              <CalculatorButton text="7" color="blue" onClick={() => buttonClickHandler('7')} />
+              <CalculatorButton text="8" color="blue" onClick={() => buttonClickHandler('8')} />
+              <CalculatorButton text="9" color="blue" onClick={() => buttonClickHandler('9')} />
+              <CalculatorButton text="X" color="gold" onClick={() => buttonClickHandler('x')} />
+              <CalculatorButton text="4" color="blue" onClick={() => buttonClickHandler('4')} />
+              <CalculatorButton text="5" color="blue" onClick={() => buttonClickHandler('5')} />
+              <CalculatorButton text="6" color="blue" onClick={() => buttonClickHandler('6')} />
+              <CalculatorButton text="-" color="gold" onClick={() => buttonClickHandler('-')} />
+              <CalculatorButton text="1" color="blue" onClick={() => buttonClickHandler('1')} />
+              <CalculatorButton text="2" color="blue" onClick={() => buttonClickHandler('2')} />
+              <CalculatorButton text="3" color="blue" onClick={() => buttonClickHandler('3')} />
+              <CalculatorButton text="+" color="gold" onClick={() => buttonClickHandler('+')} />
+              <CalculatorButton text="0" color="blue" onClick={() => buttonClickHandler('0')} />
+              <CalculatorButton text="," color="blue" onClick={() => buttonClickHandler(',')} />
+              <CalculatorButton text="+/-" color="gold" onClick={() => buttonClickHandler('e')} />
+              <CalculatorButton text="=" color="gold" onClick={() => buttonClickHandler('=')} />
             </Row>
           </div>
         </Col>
