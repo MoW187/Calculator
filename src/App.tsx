@@ -5,41 +5,110 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 import './App.scss'
 
+enum Operators {
+  PLUS = '+',
+  MINUS = '-',
+  MULTYPLY = 'x',
+  DIVISION = '/',
+  PERCENT = '%',
+  DELETE = 'c',
+  DOT = '.',
+  COMMA = ','
+}
+
+enum Modifiers {
+  DELETE = 'c',
+  BACKSPACE = 'Backspace',
+  DOT = ',',
+  COMMA = ','
+}
+
 const App = () => {
   const inputReference = useRef(null);
-  const [inputNumber, setInputNumber] = useState('');
-  const [lhs, setLhs] = useState(null);
-  const [rhs, setRhs] = useState(null);
-  const [operator, setOperator] = useState(null);
+  var inputNumber = '';
+  const [screenValue, setScreenValue] = useState<string>('0');
+  const [lhs, setLhs] = useState<number>(0);
+  const [emptyInputNumber, setEmptyInputNumber] = useState<boolean>(false);
 
-  const handleKeyPress = useCallback((evt) => {
-    if(isFinite(evt.key) && inputNumber.length < 11) {
-      setInputNumber(inputNumber + evt.key);
+  const handleKeyPress = useCallback((key: string) => {
+    if(/^\d+$/.test(key)) {
+      if(inputNumber.length < 11) {
+        inputNumber = inputNumber + key;
+        displayNumber(inputNumber);
+      }
     } else {
-      switch(evt.key) {
-        case 'c':
-        case 'Backspace':
-          setInputNumber(inputNumber.slice(0, -1));
+      switch(key) {
+        case Modifiers.DELETE:
+        case Modifiers.BACKSPACE:
+          inputNumber = '';
+          displayNumber(inputNumber);
+          setLhs(0);
           break;
-        case '.':
-        case ',':
-          setInputNumber(inputNumber + '.');
+        case Modifiers.DOT:
+        case Modifiers.COMMA:
+          inputNumber = inputNumber + '.';
+          break;
+        case Operators.PLUS:
+        case Operators.MINUS:
+        case Operators.MULTYPLY:
+        case Operators.DIVISION:
+        case Operators.PERCENT:
+          calculate(key);
+          break;
         default:
           break;
       }
     }
-  }, [inputNumber]);
+  }, [inputNumber, lhs, emptyInputNumber]);
+
+  const calculate = (operator: Operators) => {
+    setEmptyInputNumber(true);
+    if(lhs === 0) {
+      setLhs(Number(inputNumber));
+    } else {
+      var newValue = lhs
+      switch(operator) {
+        case Operators.PLUS:
+          newValue = newValue + Number(inputNumber);
+          break;
+        case Operators.MINUS:
+          newValue = newValue - Number(inputNumber);
+          break;
+        case Operators.MULTYPLY:
+          newValue = newValue * Number(inputNumber);
+          break;
+        case Operators.DIVISION:
+          newValue = newValue / Number(inputNumber);
+          break;
+      }
+      setLhs(newValue);
+      inputNumber = newValue.toString();
+      displayNumber(newValue);
+    }
+  }
 
   useEffect(() => {
-    window.addEventListener("keydown", handleKeyPress);
+    if(emptyInputNumber) {
+      inputNumber = '';
+      displayNumber('0');
+    }
+  }, [emptyInputNumber]);
+
+  const displayNumber = (value: string | Number) => {
+    if(typeof value === 'string') value = Number(value);
+    setScreenValue(value.toLocaleString('hu-HU'));
+  }
+
+  useEffect(() => {
+    window.addEventListener("keydown", (evt) => handleKeyPress(evt.key));
 
     return () => {
-      window.removeEventListener("keydown", handleKeyPress);
+      window.removeEventListener("keydown", (evt) => handleKeyPress(evt.key));
     };
   }, [handleKeyPress]);
 
-  const buttonClickHandler = (key) => {
-    handleKeyPress({key: key})
+  const buttonClickHandler = (key: string) => {
+    handleKeyPress(key)
   }
 
   return (
@@ -48,7 +117,7 @@ const App = () => {
         <Col xs={{offset: 3}}>
           <div className='calculator-panel'>
             <Row xs={1}>
-              <CalculatorScreen value={inputNumber} inputReference={inputReference} />
+              <CalculatorScreen value={screenValue} inputReference={inputReference} />
             </Row>
             <Row xs={4}>
               <CalculatorButton text="C" color="gold" onClick={() => buttonClickHandler('c')} />

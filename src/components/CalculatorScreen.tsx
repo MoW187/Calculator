@@ -3,7 +3,7 @@ import { Form, Col } from 'react-bootstrap';
 
 import './CalculatorScreen.scss';
 
-const CalculatorScreen = (props) => {
+const CalculatorScreen = (props: { inputReference: any; value: string; }) => {
     const {inputReference, value} = props;
 
     return (
@@ -12,7 +12,7 @@ const CalculatorScreen = (props) => {
                 readOnly
                 id="calculator-screen"
                 ref={inputReference}
-                value={new Intl.NumberFormat("hu-HU", {roundingPriority: 'morePrecision'}).format(value)}
+                value={value}
             />
         </Col>
     )
