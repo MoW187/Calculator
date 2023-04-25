@@ -99,6 +99,8 @@ const App = () => {
         case Operators.DIVISION:
           newValue = lhs / Number(inputNumber);
           break;
+        case Operators.PERCENT:
+          newValue = lhs * (Number(inputNumber) / 100);
       }
 
       lhs = newValue;
