@@ -4,7 +4,7 @@ import { Col } from 'react-bootstrap';
 
 import './CalculatorButton.scss';
 
-const CalculatorButton = (props) => {
+const CalculatorButton = (props: { text: string; color: string; onClick: () => void; }) => {
     const {text, color, onClick} = props;
 
     return (
