@@ -25,16 +25,18 @@ enum Modifiers {
 
 const App = () => {
   const inputReference = useRef(null);
+  var lhs = 0;
   var inputNumber = '';
+  var emptyInputNumber: boolean = false;
+  var operator: Operators | null = null;
   const [screenValue, setScreenValue] = useState<string>('0');
-  const [lhs, setLhs] = useState<number>(0);
-  const [emptyInputNumber, setEmptyInputNumber] = useState<boolean>(false);
 
   const handleKeyPress = useCallback((key: string) => {
     if(/^\d+$/.test(key)) {
       if(inputNumber.length < 11) {
-        inputNumber = inputNumber + key;
+        emptyInputNumber ? inputNumber = key : inputNumber = inputNumber + key;
         displayNumber(inputNumber);
+        emptyInputNumber = false;
       }
     } else {
       switch(key) {
@@ -42,7 +44,7 @@ const App = () => {
         case Modifiers.BACKSPACE:
           inputNumber = '';
           displayNumber(inputNumber);
-          setLhs(0);
+          lhs = 0;
           break;
         case Modifiers.DOT:
         case Modifiers.COMMA:
@@ -53,46 +55,43 @@ const App = () => {
         case Operators.MULTYPLY:
         case Operators.DIVISION:
         case Operators.PERCENT:
-          calculate(key);
+          calculate();
+          operator = key;
           break;
         default:
           break;
       }
     }
-  }, [inputNumber, lhs, emptyInputNumber]);
+  }, [inputNumber, lhs]);
 
-  const calculate = (operator: Operators) => {
-    setEmptyInputNumber(true);
+  const calculate = () => {
     if(lhs === 0) {
-      setLhs(Number(inputNumber));
+      lhs = Number(inputNumber);
+      inputNumber = '';
     } else {
-      var newValue = lhs
+      var newValue = 0;
+
       switch(operator) {
         case Operators.PLUS:
-          newValue = newValue + Number(inputNumber);
+          newValue = lhs + Number(inputNumber);
           break;
         case Operators.MINUS:
-          newValue = newValue - Number(inputNumber);
+          newValue = lhs - Number(inputNumber);
           break;
         case Operators.MULTYPLY:
-          newValue = newValue * Number(inputNumber);
+          newValue = lhs * Number(inputNumber);
           break;
         case Operators.DIVISION:
-          newValue = newValue / Number(inputNumber);
+          newValue = lhs / Number(inputNumber);
           break;
       }
-      setLhs(newValue);
+
+      lhs = newValue;
       inputNumber = newValue.toString();
       displayNumber(newValue);
+      emptyInputNumber = true;
     }
   }
-
-  useEffect(() => {
-    if(emptyInputNumber) {
-      inputNumber = '';
-      displayNumber('0');
-    }
-  }, [emptyInputNumber]);
 
   const displayNumber = (value: string | Number) => {
     if(typeof value === 'string') value = Number(value);
