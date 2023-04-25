@@ -21,7 +21,8 @@ enum Modifiers {
   BACKSPACE = 'Backspace',
   NEGATIVE = 'n',
   DOT = ',',
-  COMMA = ','
+  COMMA = ',',
+  MEMORY = 'm'
 }
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
   var inputNumber = '';
   var emptyInputNumber: boolean = false;
   var operator: Operators | null = null;
+  var memory: number | null = null;
   const [screenValue, setScreenValue] = useState<string>('0');
 
   const handleKeyPress = useCallback((key: string) => {
@@ -50,6 +52,17 @@ const App = () => {
         case Modifiers.DOT:
         case Modifiers.COMMA:
           inputNumber = inputNumber + '.';
+          break;
+        case Modifiers.MEMORY:
+          if(memory === null) {
+            memory = Number(inputNumber);
+            inputNumber = '';
+            displayNumber('0');
+          } else {
+            inputNumber = memory.toString();
+            displayNumber(inputNumber);
+          }
+          console.log('memory: ' + memory);
           break;
         case Operators.PLUS:
         case Operators.MINUS:
