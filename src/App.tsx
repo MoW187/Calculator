@@ -19,6 +19,7 @@ enum Operators {
 enum Modifiers {
   DELETE = 'c',
   BACKSPACE = 'Backspace',
+  NEGATIVE = 'n',
   DOT = ',',
   COMMA = ','
 }
@@ -58,6 +59,20 @@ const App = () => {
           calculate();
           operator = key;
           break;
+        case Modifiers.NEGATIVE:
+          if(inputNumber === '') {
+            inputNumber = '-';
+          } else if (inputNumber.substring(0, 1) === '-') {
+            inputNumber = inputNumber.substring(1);
+            displayNumber(inputNumber);
+          } else {
+            inputNumber = '-' + inputNumber;
+            displayNumber(inputNumber);
+          }
+          break;
+      case '=':
+        calculate();
+        break;
         default:
           break;
       }
@@ -137,7 +152,7 @@ const App = () => {
               <CalculatorButton text="+" color="gold" onClick={() => buttonClickHandler('+')} />
               <CalculatorButton text="0" color="blue" onClick={() => buttonClickHandler('0')} />
               <CalculatorButton text="," color="blue" onClick={() => buttonClickHandler(',')} />
-              <CalculatorButton text="+/-" color="gold" onClick={() => buttonClickHandler('e')} />
+              <CalculatorButton text="+/-" color="gold" onClick={() => buttonClickHandler('n')} />
               <CalculatorButton text="=" color="gold" onClick={() => buttonClickHandler('=')} />
             </Row>
           </div>
